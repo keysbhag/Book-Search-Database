@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Jumbotron, Container, Col, Form, Button, Card, CardColumns } from 'react-bootstrap';
 
-import { useMutation, useQuery } from "@apollo/client";
+import { useParams } from "react-router-dom";
 
+import { useMutation, useQuery } from "@apollo/client";
 
 import { SAVE_BOOK } from "../utils/mutations";
 
@@ -64,19 +65,18 @@ const SearchBooks = () => {
     // find the book in `searchedBooks` state by the matching id
     const bookToSave = searchedBooks.find((book) => book.bookId === bookId);
 
-    // get token
-    const token = Auth.loggedIn() ? Auth.getToken() : null;
+    // // get token
+    // const token = Auth.loggedIn() ? Auth.getToken() : null;
 
-    if (!token) {
-      return false;
-    }
+    // if (!token) {
+    //   return false;
+    
 
     try {
-      const response = await saveBook(bookToSave, token);
-
-      if (!response.ok) {
-        throw new Error('something went wrong!');
-      }
+      const { data } = saveBook(SAVE_BOOK, {
+        // pass URL parameter
+        variables: { input: bookToSave },
+      });
 
       // if book successfully saves to user's account, save book id to state
       setSavedBookIds([...savedBookIds, bookToSave.bookId]);
