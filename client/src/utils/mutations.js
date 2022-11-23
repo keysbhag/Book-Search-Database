@@ -19,7 +19,6 @@ export const ADD_USER = gql`
       user {
         _id
         username
-        email
       }
     }
   }
@@ -38,16 +37,14 @@ export const SAVE_BOOK = gql`
         description
         title
         image
-        link
-
      }
     }
   }
 `;
 
 export const DELETE_BOOK = gql`
-  mutation deleteBook($bookId: String!, $userId: ID! ) {
-    deleteBook(bookId: $bookId, userId: $userId) {
+  mutation deleteBook($bookId: String! ) {
+    deleteBook(bookId: $bookId) {
       _id
       username
       email
@@ -58,7 +55,6 @@ export const DELETE_BOOK = gql`
         description
         title
         image
-        link
       }
     }
   }
